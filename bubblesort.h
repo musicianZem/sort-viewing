@@ -1,8 +1,9 @@
 #pragma once
 
-#include <iostream>
+#include <SDL.h>
+#include <vector>
 using namespace std;
-class BubbleScreen {
+class BubbleSort {
     private :
         int m_width;
         int m_height;
@@ -11,11 +12,13 @@ class BubbleScreen {
         vector<int> data;
         int dataSize;
         int printRed;
+		int movei, endPoint;
 
     public :
-        BubbleScreen() {
+		BubbleSort() {
+			movei = 0;
         }
-        ~BubbleScreen() {
+        ~BubbleSort() {
         }
 
         void init(int xp, int yp, int w, int h) {
@@ -28,7 +31,7 @@ class BubbleScreen {
         }
 
         void makeData() {
-            dataSize = m_width;
+            dataSize = m_width/5;
             data.resize(dataSize);
             for(int i=0; i<dataSize; i++) { data[i] = i%m_height; }
             for(int i=0; i<dataSize; i++) {
@@ -39,13 +42,19 @@ class BubbleScreen {
                     swap( data[ii], data[jj] );
                 }
             }
+			endPoint = dataSize;
         }
 
         void update() {
-            /*
-             * algorithm here
-             * just 1 tick
-             */
+			if (endPoint > 0) {
+				if (data[movei - 1] > data[movei]) {
+					swap(data[movei - 1], data[movei]);
+				}
+				if (++movei >= endPoint) {
+					endPoint--;
+					movei = 1;
+				}
+			}
         }
 
         void render() {
@@ -53,16 +62,20 @@ class BubbleScreen {
             SDL_SetRenderDrawColor( m_renderer, 255, 255, 255, 255 );
             for(int i=0; i<dataSize; i++) {
                 SDL_Rect temp;
-                temp.x = i; temp.y = m_height - data[i]; temp.w = 1; temp.h = data[i];
-                if( i == printRed ) {
+                temp.x = i*5; temp.y = m_height - data[i]; temp.w = 5; temp.h = data[i];
+				if (i == endPoint) {
+					SDL_SetRenderDrawColor(m_renderer, 0, 255, 0, 255);
+					SDL_RenderFillRect(m_renderer, &temp);
+					SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
+				} else if(abs(i - movei) < 5) {
                     SDL_SetRenderDrawColor( m_renderer, 255, 0, 0, 255 );
                     SDL_RenderFillRect( m_renderer, &temp );
-                    SDL_SetRenderDrawColor( m_renderer, 255, 255, 255, 255 );
+					SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
                 } else {
                     SDL_RenderFillRect( m_renderer, &temp );
                 }
             }
             SDL_SetRenderDrawColor( m_renderer, 0, 0, 0, 0 );
-            SDL_RenderPresent(m_renderer);
+            SDL_RenderPresent( m_renderer );
         }
 };
