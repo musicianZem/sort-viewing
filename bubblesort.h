@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <vector>
 using namespace std;
 class BubbleSort {
@@ -62,7 +62,7 @@ class BubbleSort {
             SDL_SetRenderDrawColor( m_renderer, 255, 255, 255, 255 );
             for(int i=0; i<dataSize; i++) {
                 SDL_Rect temp;
-                temp.x = i*5; temp.y = m_height - data[i]; temp.w = 5; temp.h = data[i];
+                temp.x = i*m_width/dataSize; temp.y = m_height - data[i]; temp.w = m_width/dataSize; temp.h = data[i];
 				if (i == endPoint) {
 					SDL_SetRenderDrawColor(m_renderer, 0, 255, 0, 255);
 					SDL_RenderFillRect(m_renderer, &temp);

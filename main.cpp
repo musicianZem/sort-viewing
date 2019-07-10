@@ -1,4 +1,4 @@
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -8,10 +8,10 @@ using namespace std;
 
 const int BUBBL_STARTX = 0;
 const int BUBBL_STARTY = 50;
-const int RADIX_STARTX = 1000;
+const int RADIX_STARTX = 800;
 const int RADIX_STARTY = 50;
 
-const int SCREEN_WIDTH = 1000;
+const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 500;
 
 int main(int argc, char *argv[]) {

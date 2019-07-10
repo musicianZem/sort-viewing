@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <vector>
 #include <queue>
 using namespace std;
@@ -38,7 +38,7 @@ public:
 	}
 
 	void makeData() {
-		dataSize = m_width;
+		dataSize = m_width/5;
 		data.resize(dataSize);
 		for (int i = 0; i<dataSize; i++) { data[i] = i % m_height; }
 		for (int i = 0; i<dataSize; i++) {
@@ -52,7 +52,6 @@ public:
 	}
 
 	void update() {
-		cout << isInsert << " " << checkN << " " << movei << endl;
 		if (isInsert) {
 			if (checkN < 1000) {
 				if (data[movei] < checkN) {
@@ -89,7 +88,7 @@ public:
 		SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
 		for (int i = 0; i < dataSize; i++) {
 			SDL_Rect temp;
-			temp.x = i; temp.y = m_height - data[i]; temp.w = 1; temp.h = data[i];
+			temp.x = i*m_width/dataSize; temp.y = m_height - data[i]; temp.w = m_width/dataSize; temp.h = data[i];
 			if (abs(i - movei) < 5) {
 				SDL_SetRenderDrawColor(m_renderer, 255, 0, 0, 255);
 				SDL_RenderFillRect(m_renderer, &temp);
